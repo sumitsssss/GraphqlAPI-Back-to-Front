@@ -18,6 +18,10 @@ const EventSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
+    creator:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
   },
   { timestamps: true }
 );
