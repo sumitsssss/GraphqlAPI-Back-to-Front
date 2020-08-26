@@ -1,0 +1,48 @@
+[33mcommit a0da05b5948cc31133e913dbac8cff4804d1ba02[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Merge: fd00d57 3f21a89
+Author: Sumit <sumitsinhassss@outlook.com>
+Date:   Wed Aug 26 22:58:43 2020 +0530
+
+    Merge branch 'master' of https://github.com/sumitsssss/GraphqlAPI-Back-to-Front
+
+[33mcommit fd00d573187ed69f156604d97722a8a75da2201b[m
+Author: Sumit <sumitsinhassss@outlook.com>
+Date:   Wed Aug 26 22:57:56 2020 +0530
+
+    Added Relations in MongoDB model User and Event and tried async code
+
+[33mcommit 3f21a89cc11610749dfaa2c5e3aec926f566c2c6[m
+Author: Sumit Sinha <44542669+sumitsssss@users.noreply.github.com>
+Date:   Mon Aug 24 23:33:57 2020 +0530
+
+    Update README.md
+
+[33mcommit 03c131e9a2ad4a5ece937b324f74000c4f41c4c6[m
+Author: Sumit Sinha <44542669+sumitsssss@users.noreply.github.com>
+Date:   Mon Aug 24 23:32:29 2020 +0530
+
+    Create LICENSE
+
+[33mcommit 851897745edceddcfdbb036f0f7e93e04e9cdc77[m
+Author: Sumit Sinha <44542669+sumitsssss@users.noreply.github.com>
+Date:   Mon Aug 24 23:28:11 2020 +0530
+
+    Create README.txt
+
+[33mcommit 4c752303b5f0149cd990db00f18ffeabe75d9ba3[m
+Author: Sumit Sinha <44542669+sumitsssss@users.noreply.github.com>
+Date:   Mon Aug 24 23:27:42 2020 +0530
+
+    Create README.md
+
+[33mcommit da579a6de32622691cc712af902f3a99a07ca3e1[m
+Author: Sumit <sumitsinhassss@outlook.com>
+Date:   Mon Aug 24 23:05:25 2020 +0530
+
+    Added User Model
+
+[33mcommit c0cf2289156bd2b805e1729ea82770f29b0be634[m[33m ([m[1;31mgithub/master[m[33m)[m
+Author: sumitsssss <sumitsinhassss@outlook.com>
+Date:   Tue Aug 4 19:46:26 2020 +0530
+
+    Added Mongodb Database

@@ -98,69 +98,76 @@ module.exports = {
   //       throw err;
   //     });
   // },
- createEvent: async args=>{
-   const event = await new Event({
-     title: args.userInput.title,
-     description: args.userInput.description,
-     price: +args.eventInput.price,
-     date: new Date(args.eventInput.date),
-     creator: "5f32e741a994311c6c908db2",
-   });
-   let createdEvent;
-   try {
-     const result = await event.save();
-     createdEvent = {
-       ...result._doc,
-       _id: result._doc.id.toString,
-       date: new Date(event._doc.date).toISOString(),
-       creator: user.bind(this, result._doc.creator)
-     }
-     const user = User.findById("5f32e741a994311c6c908db2");
-     if(!user){
-       throw new Error("User not Found");
-     }
-     user.createdEvent.push(event);
-     const userSaveResult = await user.save();
-   } catch (err) {
-     throw err;
-   }
- }
-  ,
+
+  // CreateEvent Async
   createEvent: async (args) => {
     const event = await new Event({
       title: args.eventInput.title,
       description: args.eventInput.description,
       price: +args.eventInput.price,
       date: new Date(args.eventInput.date),
-      creator: "5f32e741a994311c6c908db2",
+      creator: "5f46a2e05b77ca1ba0258789",
     });
     let createdEvent;
-    return event
-      .save()
-      .then((result) => {
-        createdEvent = {
-          ...result._doc,
-          _id: result.id.toString(),
-          date: new Date(result._doc.date).toISOString(),
-          creator: user.bind(this, result._doc.creator),
-        };
-        return User.findById("5f32e741a994311c6c908db2");
-      })
-      .then((user) => {
-        if (!user) {
-          throw new Error("User not Found!");
-        }
-        user.createdEvents.push(event);
-        return user.save();
-      })
-      .then((result) => {
-        return createdEvent;
-      })
-      .catch((err) => {
-        console.log(err);
-        throw err;
-      });
+    try {
+      const result = await event.save();
+      createdEvent = {
+        ...result._doc,
+        _id: result._doc._id.toString(),
+        date: new Date(event._doc.date).toISOString(),
+        creator: user.bind(this, result._doc.creator),
+      };
+      const user_Creator = await User.findById("5f46a2e05b77ca1ba0258789");
+      if (!user_Creator) {
+        throw new Error("User not Found");
+      }
+      user_Creator.createdEvents.push(event);
+      await userFinding.save();
+      return createdEvent;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
   },
+
+  // CreateEvent (Promises)
+
+  // createEvent: async (args) => {
+  //   const event = await new Event({
+  //     title: args.eventInput.title,
+  //     description: args.eventInput.description,
+  //     price: +args.eventInput.price,
+  //     date: new Date(args.eventInput.date),
+  //     creator: "5f32e741a994311c6c908db2",
+  //   });
+  //   let createdEvent;
+  //   return event
+  //     .save()
+  //     .then((result) => {
+  //       createdEvent = {
+  //         ...result._doc,
+  //         _id: result.id.toString(),
+  //         date: new Date(result._doc.date).toISOString(),
+  //         creator: user.bind(this, result._doc.creator),
+  //       };
+  //       return User.findById("5f32e741a994311c6c908db2");
+  //     })
+  //     .then((user) => {
+  //       if (!user) {
+  //         throw new Error("User not Found!");
+  //       }
+  //       user.createdEvents.push(event);
+  //       return user.save();
+  //     })
+  //     .then((result) => {
+  //       return createdEvent;
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       throw err;
+  //     });
+  // },
+
   // createUser: (args) => {
   //   return User.findOne({ email: args.userInput.email })
   //     .then((user) => {
@@ -183,58 +190,54 @@ module.exports = {
   //       throw err;
   //     });
   // },
-  createUser: (args) => {
-    return User.findOne({ email: args.userInput.email })
-      .then((user) => {
-        if (user) {
-          throw new Error("User Exists alredy");
-        } else {
-          return bcrypt.hash(args.userInput.password, 12);
-        }
-      })
-      .then((hashedPassword) => {
-        const user = new User({
-          email: args.userInput.email,
-          password: hashedPassword,
-        });
-        return user.save();
-      })
-      .then((returnedUser) => {
-        return {
-          ...returnedUser._doc,
-          password: null,
-          _id: returnedUser.id,
-        };
-      })
-      .catch((err) => {
-        throw err;
+
+  // Async CreateUser
+  createUser: async (args) => {
+    try {
+      const existingUser = await User.findOne({ email: args.userInput.email });
+      if (existingUser) {
+        throw new Error("User Exists already");
+      }
+
+      const hashedPassword = await bcrypt.hash(args.userInput.password, 12);
+      const user = new User({
+        email: args.userInput.email,
+        password: hashedPassword,
       });
+      const result = await user.save();
+      return { ...result._doc, password: null, _id: result.id };
+    } catch (error) {
+      throw error;
+    }
   },
+
+  // Promise CreateUser
   // createUser: (args) => {
-  //   return User.findOne(
-  //     { email: args.userInput.email },
-  //     (err, returnedUser) => {
-  //       if (returnedUser) {
-  //         throw new Error("User already exists");
+  //   return User.findOne({ email: args.userInput.email })
+  //     .then((user) => {
+  //       if (user) {
+  //         throw new Error("User Exists alredy");
   //       } else {
-  //         return bcrypt.hash(args.userInput.password, 12, (err, hash) => {
-  //           if (!err) {
-  //             const user = new User({
-  //               email: args.userInput.email,
-  //               password: hash,
-  //             });
-  //             return user.save((err, resultedUser) => {
-  //               if (err) throw err;
-  //               return {
-  //                 ...resultedUser._doc,
-  //                 password: null,
-  //                 _id: resultedUser.id,
-  //               };
-  //             });
-  //           }
-  //         });
+  //         return bcrypt.hash(args.userInput.password, 12);
   //       }
-  //     }
-  //   );
+  //     })
+  //     .then((hashedPassword) => {
+  //       const user = new User({
+  //         email: args.userInput.email,
+  //         password: hashedPassword,
+  //       });
+  //       return user.save();
+  //     })
+  //     .then((returnedUser) => {
+  //       return {
+  //         ...returnedUser._doc,
+  //         password: null,
+  //         _id: returnedUser.id,
+  //       };
+  //     })
+  //     .catch((err) => {
+  //       throw err;
+  //     });
   // },
+  //
 };
